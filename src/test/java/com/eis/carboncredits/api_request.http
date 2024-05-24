@@ -1,0 +1,17 @@
+POST http://localhost:8080/api/evaluation
+Content-Type: application/json
+
+{
+  "id": 1,
+  "image_path": "/tmp/image.jpg",
+  "shapes": [
+    {
+      "type": "Circle",
+      "start": {
+        "x": 5,
+        "y": 5
+      },
+      "radio": 12
+    }
+  ]
+}
