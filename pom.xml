@@ -47,6 +47,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>carbon_credits</finalName>
 	</build>
 
 </project>
