@@ -1,5 +1,5 @@
-LABEL authors="ander"
 FROM eclipse-temurin:22-jdk-alpine
+LABEL authors="anderson"
 VOLUME /tmp
 ARG EXTRACTED=/workspace/app/target/extracted
 COPY ${EXTRACTED}/dependencies/ ./
