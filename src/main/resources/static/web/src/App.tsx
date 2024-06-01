@@ -1,44 +1,61 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import "./App.css";
 import { Board } from "./components/Board";
 import { Drawable } from "./drawable/Drawable";
 import { Point } from "./models/Point";
-import { LineDrawable } from "./drawable/LineDrawable";
 import { RectangleDrawable } from "./drawable/RentangleDrawable";
 import { CircleDrawable } from "./drawable/CircleDrawable";
 
+
+type DrawableType = "line" | "rectangle" | "circle";
+
 function App() {
+  
+ 
+  
   const [drawables, setDrawables] = useState<Drawable[]>([]);
   const [drawablesTemp, setDrawablesTemp] = useState<Drawable[]>([]);
   const [startPoint, setStartPoint] = useState<Point>(new Point(0, 0));
-  const [isDraw, setDraw] = useState<boolean>(false);
+  const [isDraw, setIsDraw] = useState<boolean>(false);
   const [image, setImage] = useState<HTMLImageElement>();
+  const [selectFigure,setFigureSelect] = useState("line")
+  const drawType = useRef<DrawableType> ("line");
+  const [color , setColor] = useState("none");
+
 
   const getStartPoint = (start: Point) => {
+    if(!image){
+      alert("Cargue una imagen")
+      return;
+    }
+    if(color == "none"){
+      alert("Selcione un tipo de area")
+      return;
+    }
+    if(drawType.current == "line"){
+      alert("Selcione una figura")
+      return;
+    }
     if (!isDraw) {
       setStartPoint(start);
-      setDraw(true);
+      setIsDraw(true);
     }
     if (isDraw) {
-      setDraw(false);
+      setIsDraw(false);
       setDrawables([...drawablesTemp]);
+      setFigureSelect("line")
+      drawType.current =  "line"
     }
   };
 
-  const drawLine = (endPoint: Point) => {
-    if (!isDraw) {
-      return;
-    }
-    const line = new LineDrawable(startPoint, endPoint);
-    setDrawablesTemp([...drawables, line]);
-  };
+  
 
   const drawRentangle = (endPoint: Point) => {
     if (!isDraw) {
       return;
     }
-    const rentangle = new RectangleDrawable(startPoint, endPoint);
-    setDrawablesTemp([rentangle]);
+    const rentangle = new RectangleDrawable(startPoint, endPoint,color);
+    setDrawablesTemp([...drawables,rentangle]);
   };
 
   const drawCircle = (endPoint: Point) => {
@@ -47,10 +64,14 @@ function App() {
     }
     const circle = new CircleDrawable(
       startPoint,
-      calculateDistance(endPoint, startPoint)
+      calculateDistance(endPoint, startPoint),
+      color
     );
     setDrawablesTemp([...drawables, circle]);
   };
+
+
+
 
   const calculateDistance = (point1: Point, point2: Point): number => {
     const dx = point2.x - point1.x;
@@ -65,6 +86,24 @@ function App() {
       image.onload = () => {
         setImage(image!);
       };
+    }
+  }
+
+
+  const setDrawFigure = (type: DrawableType) => {
+    drawType.current = type
+    setFigureSelect(type)
+  }
+
+  const mouseMove = (endPoint: Point) => {
+    if(drawType.current == "circle"){
+      drawCircle(endPoint);
+    }
+    if(drawType.current == "rectangle"){
+      drawRentangle(endPoint);
+    }
+    if(drawType.current == "line"){
+      return;
     }
   }
 
@@ -83,7 +122,7 @@ function App() {
       <Board
         figures={isDraw ? drawablesTemp : drawables}
         click={getStartPoint}
-        mouseMove={drawCircle}
+        mouseMove={mouseMove}
         isDraw={isDraw}
         image={image}
       />
@@ -106,10 +145,11 @@ function App() {
           <select
             name="area-type"
             id="area-type"
-            onChange={() => {}}
+            onChange={(event) => setColor(event.target.value)}
           >
-            <option value="evaluada">Evaluada</option>
-            <option value="bosque-nativo">Bosque Nativo</option>
+            <option value="none">Selecione</option>
+            <option value="red">Evaluada</option>
+            <option value="green">Bosque Nativo</option>
           </select>
         </div>
         <div>
@@ -117,11 +157,17 @@ function App() {
           <select
             name="area-type"
             id="area-type"
-            onChange={() => {}}
+            value={selectFigure}
+            onChange={(event) => setDrawFigure(event.target.value as DrawableType)}
           >
-            <option value="evaluada">Circulo</option>
-            <option value="bosque-nativo">Rentangulo</option>
+            <option value="line">Selecione</option>
+            <option value="circle">Circulo</option>
+            <option value="rectangle">Rentangulo</option>
           </select>
+        </div>
+        <div>
+          <h4>Borrar Figuras</h4>
+          <button  onClick={() => setDrawables([])}>Borrar</button>
         </div>
       </section>
     </div>
