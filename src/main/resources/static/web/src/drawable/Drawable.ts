@@ -1,8 +1,6 @@
-import RoughCanvas from 'roughjs'
+import { RoughCanvas } from "roughjs/bin/canvas";
+
 
 export interface Drawable {
-    /**
-     * draw
-     */
     draw(canvas:RoughCanvas):void
 }
