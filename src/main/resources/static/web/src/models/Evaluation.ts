@@ -22,7 +22,7 @@ export class Evaluation {
     public static from_json(json_data:any):Evaluation {
 
         const evaluation = new Evaluation(json_data.id, json_data.image_path, [], [])
-        evaluation.evaluated_areas = [],
+        evaluation.evaluated_areas = []
         evaluation.native_forest_areas = []
 
         this.load_areas(json_data.evaluated_areas, evaluation.evaluated_areas, 'Blue')
@@ -37,17 +37,13 @@ export class Evaluation {
         json_areas.forEach((element:any) => {
             const shapeType = element["@type"]
             let shape:Drawable|null = null
-            switch (shapeType) {
-                case "Circle":
-                    shape = new CircleDrawable(new Point(element.start.x,element.start.y), element.radio, color)
-                    break;
-                case "Rectangle":
-                    shape = new RectangleDrawable(new Point(element.start.x,element.start.y), element.height, element.width)
-                    break;
-                default:
-                    break;
+            if (shapeType == 'Circle') {
+                shape = new CircleDrawable(new Point(element.start.x,element.start.y), element.radio, color)
             }
-            if (shape) {
+            else if (shapeType == 'Rectangle') {
+                shape = new RectangleDrawable(new Point(element.start.x,element.start.y), element.height, element.width)
+            }
+            if (shape != null) {
                 shape_list.push(shape)
             }
             
