@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class EvaluacionEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 

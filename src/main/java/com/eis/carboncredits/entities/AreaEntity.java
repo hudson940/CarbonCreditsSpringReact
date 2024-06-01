@@ -4,10 +4,9 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "areas")
-public class Area {
+public class AreaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
