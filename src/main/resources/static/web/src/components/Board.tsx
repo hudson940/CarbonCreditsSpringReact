@@ -10,9 +10,10 @@ interface Props {
   isDraw: boolean;
   click: (point: Point) => void;
   mouseMove: (point: Point) => void;
+  image: HTMLImageElement | undefined;
 }
 
-export const Board = ({ figures, isDraw, click, mouseMove }: Props) => {
+export const Board = ({ figures, isDraw, image, click, mouseMove }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctx = useRef<CanvasRenderingContext2D | null>();
 
@@ -35,7 +36,6 @@ export const Board = ({ figures, isDraw, click, mouseMove }: Props) => {
         canvasRef.current?.height!
       );
     }
-
     mouseMove(
       new Point(event.clientX - rect?.left!, event.clientY - rect?.top!)
     );
@@ -50,12 +50,25 @@ export const Board = ({ figures, isDraw, click, mouseMove }: Props) => {
     }
   }, [figures]);
 
+  useEffect(() => {
+    if (image) {
+    }
+  }, [image]);
+
   return (
     <>
+      <img
+        src={image?.src}
+        alt="image"
+        style={{ position: "absolute", zIndex: 0 }}
+        width={window.innerWidth - 300}
+        height={window.innerHeight}
+      />
       <canvas
+        style={{ position: "relative", zIndex: 1000 }}
         ref={canvasRef}
-        width={1000}
-        height={1000}
+        width={window.innerWidth - 300}
+        height={window.innerHeight}
         onClick={handleClick}
         onMouseMove={handleMouseMove}
       ></canvas>
