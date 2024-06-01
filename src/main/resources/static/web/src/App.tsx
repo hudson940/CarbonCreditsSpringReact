@@ -112,6 +112,11 @@ function App() {
     const evaluationService = new EvaluationService()
     const evaluation = evaluationService.fetch_evaluation(1).then(evaluation => {
       setDrawables(evaluation.get_all_areas())
+      const image = new Image();
+      image.src = evaluation.image_path;
+      image.onload = () => {
+        setImage(image!);
+      };
     })
   }, [])
   return (
