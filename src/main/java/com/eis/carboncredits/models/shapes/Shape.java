@@ -15,6 +15,12 @@ import com.fasterxml.jackson.annotation.*;
 public abstract class Shape {
 
     Point start;
+    Point end;
+
+    public Shape(Point start, Point end) {
+        this.start = start;
+        this.end = end;
+    }
 
     public Point getStart() {
         return start;
@@ -24,11 +30,7 @@ public abstract class Shape {
         this.start = start;
     }
 
-    public Shape() {}
 
-    public Shape(Point start) {
-        this.start = start;
-    }
     @JsonProperty
     public double length(){
         return Double.NaN;
