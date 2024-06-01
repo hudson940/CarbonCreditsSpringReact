@@ -2,6 +2,8 @@ import { Shape } from "../models/Shape";
 import { Circle } from "../models/Circle";
 import { Rectangle } from "../models/Rectangle";
 import { Point } from "../models/Point";
+import { CircleDrawable } from "../drawable/CircleDrawable";
+import { RectangleDrawable } from "../drawable/RentangleDrawable";
 
 
 export class Evaluation {
@@ -19,27 +21,27 @@ export class Evaluation {
         
     }
     
-    static from_json(json_data:Object):Evaluation {
+    public static from_json(json_data:Object):Evaluation {
 
-        evaluation = new Evaluation(json_data.id, json_data.image_path, [], [])
+        const evaluation = new Evaluation(json_data.id, json_data.image_path, [], [])
         evaluation.evaluated_areas = [],
         evaluation.native_forest_areas = []
 
-        this.load_areas(json_data.evaluated_areas, this.evaluated_areas)
-        this.load_areas(json_data.native_forest_areas, this.native_forest_areas)
+        this.load_areas(json_data.evaluated_areas, evaluation.evaluated_areas)
+        this.load_areas(json_data.native_forest_areas, evaluation.native_forest_areas)
         return evaluation
     }
 
-    load_areas(json_areas:Shape[], shape_list:Shape[]){
+    static load_areas(json_areas:Shape[], shape_list:Shape[]){
         json_areas.forEach(element => {
-            const shapeType = element.type
+            const shapeType = element["@type"]
             let shape:Shape
             switch (shapeType) {
                 case "Circle":
-                    shape = new Circle(new Point(element.start.x,element.start.y), element.radio)
+                    shape = new CircleDrawable(new Point(element.start.x,element.start.y), element.radio, 'red')
                     break;
                 case "Rectangle":
-                    shape = new Rectangle(new Point(element.start.x,element.start.y), element.height, element.width)
+                    shape = new RectangleDrawable(new Point(element.start.x,element.start.y), element.height, element.width)
                     break;
                 default:
                     shape = new Shape(new Point(element.start.x, element.start.y))
