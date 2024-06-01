@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class AreaEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -22,8 +23,10 @@ public class AreaEntity {
     @Column(name = "type_area", length = Integer.MAX_VALUE)
     private String typeArea;
 
-    @Column(name = "id_evaluacion")
-    private Integer idEvaluacion;
+
+    @ManyToOne
+    @JoinColumn(name = "id_evaluacion")
+    private EvaluacionEntity evaluacion;
 
     public Long getId() {
         return id;
@@ -65,12 +68,6 @@ public class AreaEntity {
         this.typeArea = typeArea;
     }
 
-    public Integer getIdEvaluacion() {
-        return idEvaluacion;
-    }
 
-    public void setIdEvaluacion(Integer idEvaluacion) {
-        this.idEvaluacion = idEvaluacion;
-    }
 
 }

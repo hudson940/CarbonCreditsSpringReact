@@ -1,7 +1,8 @@
 package com.eis.carboncredits.controllers;
 
+import com.eis.carboncredits.entities.EvaluacionEntity;
 import com.eis.carboncredits.models.Evaluation;
-import com.eis.carboncredits.repositories.CustomEvaluationRepository;
+import com.eis.carboncredits.repositories.IEvaluationRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,24 +12,24 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/evaluation")
 public class EvaluationController {
-    private final CustomEvaluationRepository evaluationRepository;
+    private final IEvaluationRepository evaluationRepository;
 
-    public EvaluationController(CustomEvaluationRepository evaluationRepository) {
+    public EvaluationController(IEvaluationRepository evaluationRepository) {
         this.evaluationRepository = evaluationRepository;
     }
     @GetMapping
-    public List<Evaluation> getAllEvaluations() {
+    public List<EvaluacionEntity> getAllEvaluations() {
         return evaluationRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Evaluation> getEvaluationById(@PathVariable int id) {
+    public Optional<EvaluacionEntity> getEvaluationById(@PathVariable Long id) {
         return evaluationRepository.findById(id);
     }
 
     @PostMapping
-    public Optional<Evaluation> addEvaluation(@RequestBody Evaluation evaluation) {
-        this.evaluationRepository.create(evaluation);
-        return this.evaluationRepository.findById(evaluation.id());
+    public Optional<EvaluacionEntity> addEvaluation(@RequestBody EvaluacionEntity evaluation) {
+        this.evaluationRepository.save(evaluation);
+        return this.evaluationRepository.findById(evaluation.getId());
     }
 }

@@ -1,20 +1,45 @@
 package com.eis.carboncredits.entities;
 
+import com.eis.carboncredits.models.shapes.Shape;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "evaluaciones")
 public class EvaluacionEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "image", length = Integer.MAX_VALUE)
     private String image;
 
-    @Column(name = "id_evaluador")
-    private Integer idEvaluador;
+
+    public EvaluadorEntity getEvaluador() {
+        return evaluador;
+    }
+
+    public void setEvaluador(EvaluadorEntity evaluador) {
+        this.evaluador = evaluador;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_evaluador")
+    public EvaluadorEntity evaluador;
+
+    @OneToMany(mappedBy = "evaluacion")
+    private List<AreaEntity> areas;
+
+    public List<AreaEntity> getAreas() {
+        return areas;
+    }
+
+    public void setAreas(List<AreaEntity> areas) {
+        this.areas = areas;
+    }
 
     public Long getId() {
         return id;
@@ -31,12 +56,6 @@ public class EvaluacionEntity {
         this.image = image;
     }
 
-    public Integer getIdEvaluador() {
-        return idEvaluador;
-    }
 
-    public void setIdEvaluador(Integer idEvaluador) {
-        this.idEvaluador = idEvaluador;
-    }
 
 }

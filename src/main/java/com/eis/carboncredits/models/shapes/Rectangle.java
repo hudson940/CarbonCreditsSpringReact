@@ -11,10 +11,9 @@ public class Rectangle extends Shape {
     @JsonProperty
     Double width;
 
-    public Rectangle() {}
 
-    public Rectangle(Point start,Double height, Double width){
-        super(start);
+    public Rectangle(Point start,Point end,Double height, Double width){
+        super(start,end);
         this.height = height;
         this.width = width;
 

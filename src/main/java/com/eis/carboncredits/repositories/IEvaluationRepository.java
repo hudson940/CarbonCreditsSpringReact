@@ -1,20 +1,16 @@
 package com.eis.carboncredits.repositories;
 
+import com.eis.carboncredits.entities.EvaluacionEntity;
 import com.eis.carboncredits.models.Evaluation;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface EvaluationRepository {
+@Repository
+public interface IEvaluationRepository extends CrudRepository<EvaluacionEntity, Long> {
 
-
-    List<Evaluation> findAll();
-    Optional<Evaluation> findById(int id);
-    void create(Evaluation evaluation);
-    void update(Evaluation evaluation, int id);
-
-    void delete(Integer id);
-    int count();
-    void saveAll(List<Evaluation> evaluations);
-
+    @Override
+    List<EvaluacionEntity> findAll();
 }
