@@ -18,7 +18,8 @@ export class Evaluation {
         this.native_forest_areas = native_forest_areas
         
     }
-    from_json(json_data:Object) {
+    
+    static from_json(json_data:Object):Evaluation {
 
         evaluation = new Evaluation(json_data.id, json_data.image_path, [], [])
         evaluation.evaluated_areas = [],
@@ -26,6 +27,7 @@ export class Evaluation {
 
         this.load_areas(json_data.evaluated_areas, this.evaluated_areas)
         this.load_areas(json_data.native_forest_areas, this.native_forest_areas)
+        return evaluation
     }
 
     load_areas(json_areas:Shape[], shape_list:Shape[]){

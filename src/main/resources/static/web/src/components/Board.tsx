@@ -5,6 +5,7 @@ import rough from "roughjs";
 import { Drawable } from "../drawable/Drawable";
 import { Point } from "../models/Point";
 
+
 interface Props {
   figures: Drawable[];
   isDraw: boolean;
@@ -16,6 +17,7 @@ interface Props {
 export const Board = ({ figures, isDraw, image, click, mouseMove }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctx = useRef<CanvasRenderingContext2D | null>();
+
 
   const handleClick = (
     event: React.MouseEvent<HTMLCanvasElement, MouseEvent>

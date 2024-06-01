@@ -10,14 +10,10 @@ export class EvaluationService {
         this.evaluations = []
     }
 
-
-
     async fetch_evaluation(id:number){
         const result= await fetch(API_URL + "/api/evaluation/" + id)
         const jsonEvaluation = await result.json()
-        const newEvaluation = new Evaluation(jsonEvaluation)
-
-        
+        const newEvaluation = Evaluation.from_json(jsonEvaluation)
         this.evaluations.push(newEvaluation)
         return newEvaluation
     }

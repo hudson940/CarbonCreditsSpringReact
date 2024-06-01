@@ -1,10 +1,11 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Board } from "./components/Board";
 import { Drawable } from "./drawable/Drawable";
 import { Point } from "./models/Point";
 import { RectangleDrawable } from "./drawable/RentangleDrawable";
 import { CircleDrawable } from "./drawable/CircleDrawable";
+import { EvaluationService } from "./services/EvaluationService";
 
 
 type DrawableType = "line" | "rectangle" | "circle";
@@ -105,8 +106,13 @@ function App() {
     if(drawType.current == "line"){
       return;
     }
+    
   }
+  useEffect(() => {
+    const evaluationService = new EvaluationService()
+    const evaluation = evaluationService.fetch_evaluation(1)
 
+  }, [])
   return (
     <div
       style={{
