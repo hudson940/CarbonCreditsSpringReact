@@ -110,8 +110,9 @@ function App() {
   }
   useEffect(() => {
     const evaluationService = new EvaluationService()
-    const evaluation = evaluationService.fetch_evaluation(1)
-
+    const evaluation = evaluationService.fetch_evaluation(1).then(evaluation => {
+      setDrawables(evaluation.get_all_areas())
+    })
   }, [])
   return (
     <div

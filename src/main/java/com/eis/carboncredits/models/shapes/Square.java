@@ -7,8 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Square extends Rectangle {
 
 
-    public Square(Point start, Line height) {
-        super(height, new Line(height.getStart(), height.getEnd()));
-        //super(height, height);
+    public Square(Point start, Double height) {
+        super(start, height, height);
     }
 }

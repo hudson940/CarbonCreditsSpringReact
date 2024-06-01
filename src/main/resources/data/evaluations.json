@@ -10,17 +10,7 @@
             "x": 5,
             "y": 5
           },
-          "radio": {
-            "@type": "Line",
-            "start": {
-              "x": 10,
-              "y": 18
-            },
-            "end": {
-              "x": 15,
-              "y": 22
-            }
-          }
+          "radio": 10
         }
       ],
       "native_forest_areas": [
@@ -30,17 +20,7 @@
             "x": 20,
             "y": 20
           },
-          "radio": {
-            "@type": "Line",
-            "start": {
-              "x": 10,
-              "y": 18
-            },
-            "end": {
-              "x": 15,
-              "y": 22
-            }
-          }
+          "radio":20
         },
         {
           "@type": "Rectangle",
@@ -48,29 +28,8 @@
             "x": 25,
             "y": 25
           },
-          "height": {
-            "@type": "Line",
-            "start": {
-              "x": 12,
-              "y": 18
-            },
-            "end": {
-              "x": 15,
-              "y": 22
-            }
-
-          },
-          "width": {
-            "@type": "Line",
-            "start": {
-              "x": 18,
-              "y": 5
-            },
-            "end": {
-              "x": 15,
-              "y": 22
-            }
-          }
+          "height": 20,
+          "width": 10
         },
         {
           "@type": "Square",
@@ -78,111 +37,7 @@
             "x": 25,
             "y": 25
           },
-          "height": {
-            "@type": "Line",
-            "start": {
-              "x": 12,
-              "y": 18
-            },
-            "end": {
-              "x": 15,
-              "y": 22
-            }
-
-          }
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "image_path": "/tmp/image2.jpg",
-      "evaluated_areas": [
-        {
-          "@type": "Circle",
-          "start": {
-            "x": 5,
-            "y": 5
-          },
-          "radio": {
-            "@type": "Line",
-            "start": {
-              "x": 10,
-              "y": 18
-            },
-            "end": {
-              "x": 15,
-              "y": 22
-            }
-          }
-        }
-      ],
-      "native_forest_areas": [
-        {
-          "@type": "Circle",
-          "start": {
-            "x": 20,
-            "y": 20
-          },
-          "radio": {
-            "@type": "Line",
-            "start": {
-              "x": 10,
-              "y": 18
-            },
-            "end": {
-              "x": 15,
-              "y": 22
-            }
-          }
-        },
-        {
-          "@type": "Rectangle",
-          "start": {
-            "x": 25,
-            "y": 25
-          },
-          "height": {
-            "@type": "Line",
-            "start": {
-              "x": 12,
-              "y": 18
-            },
-            "end": {
-              "x": 15,
-              "y": 22
-            }
-
-          },
-          "width": {
-            "@type": "Line",
-            "start": {
-              "x": 18,
-              "y": 5
-            },
-            "end": {
-              "x": 15,
-              "y": 22
-            }
-          }
-        },
-        {
-          "@type": "Square",
-          "start": {
-            "x": 25,
-            "y": 25
-          },
-          "height": {
-            "@type": "Line",
-            "start": {
-              "x": 12,
-              "y": 18
-            },
-            "end": {
-              "x": 15,
-              "y": 22
-            }
-
-          }
+          "height": 40
         }
       ]
     }
