@@ -29,6 +29,7 @@ public class EvaluationController {
 
     @PostMapping
     public Optional<EvaluacionEntity> addEvaluation(@RequestBody EvaluacionEntity evaluation) {
+        evaluation.from_json();
         this.evaluationRepository.save(evaluation);
         return this.evaluationRepository.findById(evaluation.getId());
     }

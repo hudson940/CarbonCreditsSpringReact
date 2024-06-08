@@ -14,7 +14,7 @@ interface Props {
   image: HTMLImageElement | undefined;
 }
 
-export const Board = ({ figures, isDraw, image, click, mouseMove }: Props) => {
+export const Board = ({ figures, isDraw, image, click, mouseMove}: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctx = useRef<CanvasRenderingContext2D | null>();
 
@@ -26,17 +26,21 @@ export const Board = ({ figures, isDraw, image, click, mouseMove }: Props) => {
     click(new Point(event.clientX - rect?.left!, event.clientY - rect?.top!));
   };
 
+  const cleanCanvas = ()=>{
+    ctx.current?.clearRect(
+      0,
+      0,
+      canvasRef.current?.width!,
+      canvasRef.current?.height!
+    );
+  }
+
   const handleMouseMove = (
     event: React.MouseEvent<HTMLCanvasElement, MouseEvent>
   ) => {
     const rect = canvasRef.current?.getBoundingClientRect();
     if (isDraw) {
-      ctx.current?.clearRect(
-        0,
-        0,
-        canvasRef.current?.width!,
-        canvasRef.current?.height!
-      );
+      cleanCanvas()
     }
     mouseMove(
       new Point(event.clientX - rect?.left!, event.clientY - rect?.top!)
@@ -44,6 +48,7 @@ export const Board = ({ figures, isDraw, image, click, mouseMove }: Props) => {
   };
 
   useEffect(() => {
+    cleanCanvas()
     const canvas = canvasRef.current;
     ctx.current = canvas?.getContext("2d");
     const rn = rough.canvas(canvas!);

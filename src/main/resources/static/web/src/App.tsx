@@ -6,6 +6,7 @@ import { Point } from "./models/Point";
 import { RectangleDrawable } from "./drawable/RentangleDrawable";
 import { CircleDrawable } from "./drawable/CircleDrawable";
 import { EvaluationService } from "./services/EvaluationService";
+import { Evaluation } from "./models/Evaluation";
 
 
 type DrawableType = "line" | "rectangle" | "circle";
@@ -89,7 +90,57 @@ function App() {
       };
     }
   }
+  function handleJsonUpload(event: ChangeEvent<HTMLInputElement>): void {
+    if (event.target.files && event.target.files[0]) {
+      const fileReader = new FileReader();
+      fileReader.onload = function(fileLoadedEvent){
+        
+        const textFromFileLoaded = fileLoadedEvent.target?.result as string;
+        const jsonData = JSON.parse(textFromFileLoaded)
+        const newEvaluation = Evaluation.from_json(jsonData)
+        setEvaluation(newEvaluation)
+      };
+      fileReader.readAsText(event.target.files[0], "UTF-8");
+      
+    }
+  }
 
+  function setEvaluation(evaluation:Evaluation) {
+    setDrawables([])
+    setDrawables(evaluation.get_all_areas())
+    const image = new Image();
+    image.src = evaluation.image_path;
+    image.onload = () => {
+      setImage(image!);
+    };
+  }
+
+  function exportJson() {
+    const evaluationService = new EvaluationService()
+    evaluationService.fetch_evaluation_blob(1)
+  .then((blob) => {
+    // Create blob link to download
+    const url = window.URL.createObjectURL(
+      new Blob([blob]),
+    );
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute(
+      'download',
+      `evaluation.json`,
+    );
+
+    // Append to html link element page
+    document.body.appendChild(link);
+
+    // Start download
+    link.click();
+
+    // Clean up and remove the link
+    link.parentNode.removeChild(link);
+  });
+    
+  }
 
   const setDrawFigure = (type: DrawableType) => {
     drawType.current = type
@@ -109,15 +160,13 @@ function App() {
     
   }
   useEffect(() => {
-    const evaluationService = new EvaluationService()
-    const evaluation = evaluationService.fetch_evaluation(1).then(evaluation => {
-      setDrawables(evaluation.get_all_areas())
-      const image = new Image();
-      image.src = evaluation.image_path;
-      image.onload = () => {
-        setImage(image!);
-      };
-    })
+    if (drawables.length==0) {
+      const evaluationService = new EvaluationService()
+      evaluationService.fetch_evaluation(1).then(evaluation => {
+        setEvaluation(evaluation)
+      })
+    }
+    
   }, [])
   return (
     <div
@@ -137,6 +186,7 @@ function App() {
         mouseMove={mouseMove}
         isDraw={isDraw}
         image={image}
+        
       />
       <section
         style={{
@@ -148,6 +198,10 @@ function App() {
         }}
       >
         <h2>Menu</h2>
+        <div>
+          <h4>Cargar JSON</h4>
+          <input type="file" onChange={handleJsonUpload} />
+        </div>
         <div>
           <h4>Cargar Imagen</h4>
           <input type="file" onChange={handleImageUpload} />
@@ -178,9 +232,16 @@ function App() {
           </select>
         </div>
         <div>
+          <h4>Exportar JSON</h4>
+          <button  onClick={() => exportJson()}>Exportar</button>
+        </div>
+        <div>
           <h4>Borrar Figuras</h4>
           <button  onClick={() => setDrawables([])}>Borrar</button>
         </div>
+
+        
+
       </section>
     </div>
   );

@@ -1,6 +1,7 @@
 package com.eis.carboncredits.entities;
 
 import com.eis.carboncredits.models.shapes.Shape;
+import com.eis.carboncredits.models.shapes.ShapeLoader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -42,6 +43,12 @@ public class EvaluacionEntity {
 
     public void setAreas(List<AreaEntity> areas) {
         this.areas = areas;
+    }
+
+    public void from_json(){
+        for (AreaEntity area: areas){
+            ShapeLoader.to_entity(area);
+        }
     }
 
     public Long getId() {

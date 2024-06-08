@@ -17,4 +17,10 @@ export class EvaluationService {
         this.evaluations.push(newEvaluation)
         return newEvaluation
     }
+
+    async fetch_evaluation_blob(id:number){
+        const result= await fetch(API_URL + "/api/evaluation/" + id)
+        const evaluation = await result.blob()
+        return evaluation
+    }
 }

@@ -18,4 +18,19 @@ public class ShapeLoader {
         }
         return null;
     }
+    public static void to_entity(AreaEntity areaEntity) {
+        Shape shape = areaEntity.getShape();
+        areaEntity.setStart_x(shape.getStart().getX());
+        areaEntity.setStart_y(shape.getStart().getY());
+        areaEntity.setEnd_x(shape.getEnd().getX());
+        areaEntity.setEnd_y(shape.getEnd().getY());
+        if (shape instanceof Circle ){
+            areaEntity.setRadio(((Circle) shape).radio);
+        }
+        else if (shape instanceof Rectangle){
+            areaEntity.setHeight(((Rectangle) shape).height);
+            areaEntity.setWidth(((Rectangle) shape).width);
+        }
+
+    }
 }

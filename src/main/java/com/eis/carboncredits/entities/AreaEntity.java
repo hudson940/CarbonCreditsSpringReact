@@ -2,12 +2,41 @@ package com.eis.carboncredits.entities;
 
 import com.eis.carboncredits.models.shapes.Shape;
 import com.eis.carboncredits.models.shapes.ShapeLoader;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import com.eis.carboncredits.models.shapes.Point;
 
 @Entity
 @Table(name = "areas")
 public class AreaEntity {
+
+    public void setStart_x(Integer start_x) {
+        this.start_x = start_x;
+    }
+
+    public void setStart_y(Integer start_y) {
+        this.start_y = start_y;
+    }
+
+    public void setEnd_x(Integer end_x) {
+        this.end_x = end_x;
+    }
+
+    public void setEnd_y(Integer end_y) {
+        this.end_y = end_y;
+    }
+
+    public void setRadio(Double radio) {
+        this.radio = radio;
+    }
+
+    public void setHeight(Double height) {
+        this.height = height;
+    }
+
+    public void setWidth(Double width) {
+        this.width = width;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +73,7 @@ public class AreaEntity {
     @JoinColumn(name = "id_evaluacion")
     private EvaluacionEntity evaluacion;
 
+
     public Long getId() {
         return id;
     }
@@ -52,14 +82,17 @@ public class AreaEntity {
         this.id = id;
     }
 
+    @JsonIgnore
     public Point getStart() {
         return new Point(start_x, start_y);
     }
 
+    @JsonIgnore
     public Point getEnd() {
         return new Point(end_x, end_y);
     }
 
+    @JsonIgnore
     public String getType() {
         return type;
     }
@@ -76,6 +109,7 @@ public class AreaEntity {
         this.typeArea = typeArea;
     }
 
+    @JsonIgnore
     public Double getRadio(){
         return this.radio;
     }
@@ -87,10 +121,11 @@ public class AreaEntity {
         return this.shape;
     }
 
+    @JsonIgnore
     public Double getHeight() {
         return height;
     }
-
+    @JsonIgnore
     public Double getWidth() {
         return width;
     }

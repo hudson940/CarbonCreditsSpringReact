@@ -14,7 +14,9 @@ import com.fasterxml.jackson.annotation.*;
 })
 public abstract class Shape {
 
+    @JsonProperty
     Point start;
+    @JsonProperty
     Point end;
 
     public Shape(Point start, Point end) {
@@ -29,6 +31,10 @@ public abstract class Shape {
 
     public void setStart(Point start) {
         this.start = start;
+    }
+
+    public Point getEnd(){
+        return end;
     }
 
 

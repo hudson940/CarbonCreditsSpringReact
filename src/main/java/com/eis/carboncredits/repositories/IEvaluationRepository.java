@@ -13,4 +13,5 @@ public interface IEvaluationRepository extends CrudRepository<EvaluacionEntity, 
 
     @Override
     List<EvaluacionEntity> findAll();
+
 }
