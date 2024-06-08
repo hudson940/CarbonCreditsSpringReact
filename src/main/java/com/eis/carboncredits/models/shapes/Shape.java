@@ -1,6 +1,8 @@
 package com.eis.carboncredits.models.shapes;
 
 import java.lang.Double;
+
+import com.eis.carboncredits.entities.AreaEntity;
 import com.fasterxml.jackson.annotation.*;
 
 
@@ -19,6 +21,7 @@ public abstract class Shape {
         this.start = start;
         this.end = end;
     }
+
 
     public Point getStart() {
         return start;

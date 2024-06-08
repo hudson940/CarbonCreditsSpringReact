@@ -1,8 +1,10 @@
 package com.eis.carboncredits.entities;
 
 import com.eis.carboncredits.models.shapes.Shape;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,7 +16,7 @@ public class EvaluacionEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "image", length = Integer.MAX_VALUE)
+    @Column(name = "image", length = 255)
     private String image;
 
 
@@ -32,6 +34,7 @@ public class EvaluacionEntity {
 
     @OneToMany(mappedBy = "evaluacion")
     private List<AreaEntity> areas;
+
 
     public List<AreaEntity> getAreas() {
         return areas;
@@ -54,6 +57,38 @@ public class EvaluacionEntity {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public double get_area(List<Shape> shapes) {
+        double result = 0;
+        for (Shape shape : shapes) {
+            result += shape.area();
+        }
+        return result;
+    }
+
+    public List<Shape> get_areas_by_type(String typeArea){
+        List<Shape> shapes = new ArrayList<>();
+        for (AreaEntity area: areas){
+            if (area.getTypeArea().equals(typeArea)){
+                shapes.add(area.getShape());
+            }
+        }
+        return shapes;
+    }
+
+    @JsonProperty
+    public double evaluated_area() {
+        return get_area(get_areas_by_type("evaluated"));
+    }
+    @JsonProperty
+    public double native_forest_area() {
+        return get_area(get_areas_by_type("native_forest"));
+    }
+
+    @JsonProperty
+    public double percent_forest_area(){
+        return native_forest_area() / evaluated_area() * 100;
     }
 
 
