@@ -23,4 +23,14 @@ export class EvaluationService {
         const evaluation = await result.blob()
         return evaluation
     }
+
+    async save_evaluation(evaluation:Evaluation){
+        const result = await fetch(API_URL + '/api/evaluation', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: evaluation.to_json(),
+        })
+    }
 }

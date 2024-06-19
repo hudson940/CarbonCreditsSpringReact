@@ -12,29 +12,31 @@ import { Evaluation } from "./models/Evaluation";
 type DrawableType = "line" | "rectangle" | "circle";
 
 function App() {
-  
- 
-  
+
+
+
   const [drawables, setDrawables] = useState<Drawable[]>([]);
   const [drawablesTemp, setDrawablesTemp] = useState<Drawable[]>([]);
   const [startPoint, setStartPoint] = useState<Point>(new Point(0, 0));
   const [isDraw, setIsDraw] = useState<boolean>(false);
   const [image, setImage] = useState<HTMLImageElement>();
-  const [selectFigure,setFigureSelect] = useState("line")
-  const drawType = useRef<DrawableType> ("line");
-  const [color , setColor] = useState("none");
+  const [selectFigure, setFigureSelect] = useState("line")
+  const drawType = useRef<DrawableType>("line");
+  const [color, setColor] = useState("none");
+  const [currentEvaluation, setCurrentEvaluation] = useState<Evaluation>(new Evaluation(0,'',[],[],0,0,0))
 
+  const evaluationService = new EvaluationService()
 
   const getStartPoint = (start: Point) => {
-    if(!image){
+    if (!image) {
       alert("Cargue una imagen")
       return;
     }
-    if(color == "none"){
+    if (color == "none") {
       alert("Selcione un tipo de area")
       return;
     }
-    if(drawType.current == "line"){
+    if (drawType.current == "line") {
       alert("Selcione una figura")
       return;
     }
@@ -46,18 +48,18 @@ function App() {
       setIsDraw(false);
       setDrawables([...drawablesTemp]);
       setFigureSelect("line")
-      drawType.current =  "line"
+      drawType.current = "line"
     }
   };
 
-  
+
 
   const drawRentangle = (endPoint: Point) => {
     if (!isDraw) {
       return;
     }
-    const rentangle = new RectangleDrawable(startPoint, endPoint,color);
-    setDrawablesTemp([...drawables,rentangle]);
+    const rentangle = new RectangleDrawable(startPoint, endPoint, color);
+    setDrawablesTemp([...drawables, rentangle]);
   };
 
   const drawCircle = (endPoint: Point) => {
@@ -93,19 +95,20 @@ function App() {
   function handleJsonUpload(event: ChangeEvent<HTMLInputElement>): void {
     if (event.target.files && event.target.files[0]) {
       const fileReader = new FileReader();
-      fileReader.onload = function(fileLoadedEvent){
-        
+      fileReader.onload = function (fileLoadedEvent) {
+
         const textFromFileLoaded = fileLoadedEvent.target?.result as string;
         const jsonData = JSON.parse(textFromFileLoaded)
         const newEvaluation = Evaluation.from_json(jsonData)
         setEvaluation(newEvaluation)
       };
       fileReader.readAsText(event.target.files[0], "UTF-8");
-      
+
     }
   }
 
-  function setEvaluation(evaluation:Evaluation) {
+  function setEvaluation(evaluation: Evaluation) {
+    setCurrentEvaluation(evaluation)
     setDrawables([])
     setDrawables(evaluation.get_all_areas())
     const image = new Image();
@@ -115,31 +118,38 @@ function App() {
     };
   }
 
+  function save() {
+    evaluationService.save_evaluation(currentEvaluation).then(()=>{
+      console.log('evaluation saved')
+    })
+  }
+
   function exportJson() {
-    const evaluationService = new EvaluationService()
-    evaluationService.fetch_evaluation_blob(1)
-  .then((blob) => {
-    // Create blob link to download
-    const url = window.URL.createObjectURL(
-      new Blob([blob]),
-    );
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute(
-      'download',
-      `evaluation.json`,
-    );
+    //const evaluationService = new EvaluationService()
+    evaluationService.save_evaluation(currentEvaluation)
+    evaluationService.fetch_evaluation_blob(currentEvaluation.id)
+      .then((blob) => {
+        // Create blob link to download
+        const url = window.URL.createObjectURL(
+          new Blob([blob]),
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute(
+          'download',
+          `evaluation.json`,
+        );
 
-    // Append to html link element page
-    document.body.appendChild(link);
+        // Append to html link element page
+        document.body.appendChild(link);
 
-    // Start download
-    link.click();
+        // Start download
+        link.click();
 
-    // Clean up and remove the link
-    link.parentNode.removeChild(link);
-  });
-    
+        // Clean up and remove the link
+        link.parentNode.removeChild(link);
+      });
+
   }
 
   const setDrawFigure = (type: DrawableType) => {
@@ -148,25 +158,28 @@ function App() {
   }
 
   const mouseMove = (endPoint: Point) => {
-    if(drawType.current == "circle"){
+    if (drawType.current == "circle") {
       drawCircle(endPoint);
     }
-    if(drawType.current == "rectangle"){
+    if (drawType.current == "rectangle") {
       drawRentangle(endPoint);
     }
-    if(drawType.current == "line"){
+    if (drawType.current == "line") {
       return;
     }
-    
+
   }
   useEffect(() => {
-    if (drawables.length==0) {
-      const evaluationService = new EvaluationService()
-      evaluationService.fetch_evaluation(1).then(evaluation => {
-        setEvaluation(evaluation)
-      })
+    if (drawables.length == 0) {
+      //const evaluationService = new EvaluationService()
+      if (currentEvaluation.id) {
+        evaluationService.fetch_evaluation(currentEvaluation.id).then(evaluation => {
+          setEvaluation(evaluation)
+        })
+      }
+
     }
-    
+
   }, [])
   return (
     <div
@@ -178,6 +191,7 @@ function App() {
         width: "100%",
         backgroundColor: "#f0f0f0",
         overflow: "hidden",
+        color: "black",
       }}
     >
       <Board
@@ -186,7 +200,7 @@ function App() {
         mouseMove={mouseMove}
         isDraw={isDraw}
         image={image}
-        
+
       />
       <section
         style={{
@@ -194,7 +208,7 @@ function App() {
           padding: 20,
           display: "flex",
           flexDirection: "column",
-          gap: 30,
+          gap: 20,
         }}
       >
         <h2>Menu</h2>
@@ -233,14 +247,18 @@ function App() {
         </div>
         <div>
           <h4>Exportar JSON</h4>
-          <button  onClick={() => exportJson()}>Exportar</button>
+          <button onClick={() => exportJson()}>Exportar</button>
+        </div>
+        <div>
+          <h4>Guardar</h4>
+          <button onClick={() => save()}>Guardar</button>
         </div>
         <div>
           <h4>Borrar Figuras</h4>
-          <button  onClick={() => setDrawables([])}>Borrar</button>
+          <button onClick={() => setDrawables([])}>Borrar</button>
         </div>
 
-        
+
 
       </section>
     </div>

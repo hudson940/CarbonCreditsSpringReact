@@ -5,7 +5,7 @@ import { RectangleDrawable } from "../drawable/RentangleDrawable";
 
 
 export class Evaluation {
-    id: Number;
+    id: number;
     image_path: string;
     evaluated_areas: Drawable[];
     native_forest_areas: Drawable[];
@@ -13,7 +13,7 @@ export class Evaluation {
     native_forest_area: number;
     evaluated_area:number;
 
-    constructor(id:Number, image_path:string, evaluated_areas: Drawable[], native_forest_areas: Drawable[],percent_forest_area:number, native_forest_area:number,evaluated_area:number) {
+    constructor(id:number, image_path:string, evaluated_areas: Drawable[], native_forest_areas: Drawable[],percent_forest_area:number, native_forest_area:number,evaluated_area:number) {
 
         this.id = id,
         this.image_path = image_path,
@@ -34,6 +34,28 @@ export class Evaluation {
         this.load_areas(json_data.areas.filter( (a:any) => a.typeArea == 'evaluated'), evaluation.evaluated_areas, 'Blue')
         this.load_areas(json_data.areas.filter((a:any)=>a.typeArea == 'native_forest'), evaluation.native_forest_areas, 'Red')
         return evaluation
+    }
+    public to_json():string {
+        const areas = []
+
+        for (const area of this.evaluated_areas){
+            const area_json = {
+                typeArea: 'evaluated',
+                ...area
+            }
+            areas.push(area_json)
+        }
+        for (const area of this.native_forest_areas){
+            const area_json = {
+                typeArea: 'native_forest',
+                ...area
+            }
+            areas.push(area_json)
+        }
+
+        return JSON.stringify({
+            areas: areas
+        })
     }
     public get_all_areas(): Drawable[]{
         return [...this.evaluated_areas, ...this.native_forest_areas]
