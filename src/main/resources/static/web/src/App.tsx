@@ -46,11 +46,19 @@ function App() {
     }
     if (isDraw) {
       setIsDraw(false);
-      setDrawables([...drawablesTemp]);
-      setFigureSelect("line")
-      drawType.current = "line"
     }
+
   };
+
+  const mouseUp = () => {
+    if (isDraw && drawablesTemp.length) {
+      setDrawables([...drawablesTemp]);
+      addArea(drawablesTemp[drawablesTemp.length-1], color)
+      setDrawablesTemp([])
+      save()
+    }
+    
+  }
 
 
 
@@ -58,8 +66,9 @@ function App() {
     if (!isDraw) {
       return;
     }
-    const rentangle = new RectangleDrawable(startPoint, endPoint, color);
-    setDrawablesTemp([...drawables, rentangle]);
+    const rectangle = new RectangleDrawable(startPoint, endPoint, color);
+    
+    setDrawablesTemp([...drawables, rectangle]);
   };
 
   const drawCircle = (endPoint: Point) => {
@@ -71,9 +80,18 @@ function App() {
       calculateDistance(endPoint, startPoint),
       color
     );
+  
     setDrawablesTemp([...drawables, circle]);
   };
 
+  const addArea = (figure: Drawable, type_area:string): void => {
+    if (type_area == 'red') {
+      currentEvaluation.evaluated_areas.push(figure)
+    }
+    else if (type_area == 'green') {
+      currentEvaluation.native_forest_areas.push(figure)
+    }
+  };
 
 
 
@@ -119,7 +137,7 @@ function App() {
   }
 
   function save() {
-    evaluationService.save_evaluation(currentEvaluation).then(()=>{
+    evaluationService.save_evaluation(currentEvaluation).then((e)=>{
       console.log('evaluation saved')
     })
   }
@@ -198,6 +216,7 @@ function App() {
         figures={isDraw ? drawablesTemp : drawables}
         click={getStartPoint}
         mouseMove={mouseMove}
+        mouseUp={mouseUp}
         isDraw={isDraw}
         image={image}
 

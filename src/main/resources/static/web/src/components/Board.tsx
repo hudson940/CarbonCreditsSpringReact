@@ -12,9 +12,10 @@ interface Props {
   click: (point: Point) => void;
   mouseMove: (point: Point) => void;
   image: HTMLImageElement | undefined;
+  mouseUp: ()=>void;
 }
 
-export const Board = ({ figures, isDraw, image, click, mouseMove}: Props) => {
+export const Board = ({ figures, isDraw, image, click, mouseMove, mouseUp}: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctx = useRef<CanvasRenderingContext2D | null>();
 
@@ -24,6 +25,10 @@ export const Board = ({ figures, isDraw, image, click, mouseMove}: Props) => {
   ) => {
     const rect = canvasRef.current?.getBoundingClientRect();
     click(new Point(event.clientX - rect?.left!, event.clientY - rect?.top!));
+  };
+  const handleMouseUp = (
+   ) => {
+    mouseUp()
   };
 
   const cleanCanvas = ()=>{
@@ -78,6 +83,7 @@ export const Board = ({ figures, isDraw, image, click, mouseMove}: Props) => {
         height={window.innerHeight}
         onClick={handleClick}
         onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
       ></canvas>
     </>
   );

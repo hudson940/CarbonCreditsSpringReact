@@ -5,7 +5,7 @@ import { Circle } from "../models/Circle";
 
 export class CircleDrawable extends Circle implements Drawable {
 
-
+  type: string = 'Circle';
   color: string;
   constructor(start: Point, radius: number,color: string) {
     super(start, radius);

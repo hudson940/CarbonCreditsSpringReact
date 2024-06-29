@@ -41,6 +41,9 @@ export class Evaluation {
         for (const area of this.evaluated_areas){
             const area_json = {
                 typeArea: 'evaluated',
+                // todo: missing fields
+                image: '/tmp/ui.jpg',
+                id_evaluador:1,
                 ...area
             }
             areas.push(area_json)
@@ -54,7 +57,8 @@ export class Evaluation {
         }
 
         return JSON.stringify({
-            areas: areas
+            areas: areas,
+            
         })
     }
     public get_all_areas(): Drawable[]{

@@ -1,17 +1,4 @@
 POST http://localhost:8080/api/evaluation
 Content-Type: application/json
 
-{
-  "id": 1,
-  "image_path": "/tmp/image.jpg",
-  "shapes": [
-    {
-      "type": "Circle",
-      "start": {
-        "x": 5,
-        "y": 5
-      },
-      "radio": 12
-    }
-  ]
-}
+{"image","areas":[{"typeArea":"evaluated","start":{"x":297,"y":309},"height":0,"width":0,"end":{"x":479,"y":487},"color":"red","type":"Rectangle"},{"typeArea":"evaluated","start":{"x":297,"y":309},"height":0,"width":0,"end":{"x":479,"y":487},"color":"red","type":"Rectangle"}]}

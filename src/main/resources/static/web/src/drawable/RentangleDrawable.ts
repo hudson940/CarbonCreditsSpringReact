@@ -6,9 +6,10 @@ export class RectangleDrawable extends Rectangle implements Drawable {
     start: Point;
     end: Point;
     color: string
+    type: string = 'Rectangle';
   
   constructor(start: Point, end: Point,color:string) {
-     super(start,end,color)
+     super(start,end)
      this.start = start;
      this.end = end;
      this.color = color;
