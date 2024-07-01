@@ -16,6 +16,12 @@ public class Rectangle extends Shape {
         super(start,end);
         this.height = height;
         this.width = width;
+        if (height == null){
+            this.height = 0.0;
+        }
+        if (width == null){
+            this.width = 0.0;
+        }
 
     }
 

@@ -21,6 +21,9 @@ public abstract class Shape {
 
     public Shape(Point start, Point end) {
         this.start = start;
+        if (end == null){
+            end = new Point(0,0);
+        }
         this.end = end;
     }
 

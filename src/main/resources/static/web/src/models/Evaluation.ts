@@ -38,26 +38,33 @@ export class Evaluation {
     public to_json():string {
         const areas = []
 
-        for (const area of this.evaluated_areas){
-            const area_json = {
-                typeArea: 'evaluated',
-                // todo: missing fields
-                image: '/tmp/ui.jpg',
-                id_evaluador:1,
-                ...area
+        function mapArea(area:Drawable, typeArea:string) {
+            
+            return {
+                typeArea: typeArea,
+                ...area,
+                shape: {
+                    '@type': area.type,
+                    start: area.start,
+                    end: area.end
+                }
             }
+        }
+
+        for (const area of this.evaluated_areas){
+            const area_json = mapArea(area, 'evaluated')
             areas.push(area_json)
         }
         for (const area of this.native_forest_areas){
-            const area_json = {
-                typeArea: 'native_forest',
-                ...area
-            }
+            const area_json = mapArea(area, 'native_forest')
             areas.push(area_json)
         }
 
         return JSON.stringify({
             areas: areas,
+            // todo: missing fields
+            image: '/tmp/ui.jpg',
+            id_evaluador:1,
             
         })
     }

@@ -9,8 +9,11 @@ public class Circle extends Shape{
 
     public Circle(Point start,Point end,Double radio) {
         super(start,end);
-        this.radio = radio;
 
+        this.radio = radio;
+        if (radio == null){
+            this.radio = 0.0;
+        }
     }
 
     public double length() {
