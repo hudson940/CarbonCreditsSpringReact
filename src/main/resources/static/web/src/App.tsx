@@ -3,6 +3,7 @@ import "./App.css";
 import { Board } from "./components/Board";
 import { Drawable } from "./drawable/Drawable";
 import { Point } from "./models/Point";
+import { Evaluador } from "./models/Evaluador";
 import { RectangleDrawable } from "./drawable/RentangleDrawable";
 import { CircleDrawable } from "./drawable/CircleDrawable";
 import { EvaluationService } from "./services/EvaluationService";
@@ -23,11 +24,18 @@ function App() {
   const [selectFigure, setFigureSelect] = useState("line")
   const drawType = useRef<DrawableType>("line");
   const [color, setColor] = useState("none");
-  const [currentEvaluation, setCurrentEvaluation] = useState<Evaluation>(new Evaluation(0,'',[],[],0,0,0))
+  const [currentEvaluation, setCurrentEvaluation] = useState<Evaluation>(new Evaluation(0,'',[],[],0,0,0, new Evaluador(undefined, '')))
+  const [evaluador, setEvaluador] = useState("")
+  const [evaluated_area, setEvaluatedArea] = useState(0)
+  const [native_forest_area, setNativeForestArea] = useState(0)
+  const [percent_forest_area, setPercentForestArea] = useState(0)
 
   const evaluationService = new EvaluationService()
 
   const getStartPoint = (start: Point) => {
+    if (!evaluador) {
+      alert ("Ingrese el evaluador")
+    }
     if (!image) {
       alert("Cargue una imagen")
       return;
@@ -66,16 +74,21 @@ function App() {
     if (!isDraw) {
       return;
     }
-    const rectangle = new RectangleDrawable(startPoint, endPoint, color);
+    const rectangle = new RectangleDrawable(undefined,startPoint, endPoint, color);
     
     setDrawablesTemp([...drawables, rectangle]);
   };
+
+  const onChangeEvaluador = event => {
+   setEvaluador(event.target.value);
+   currentEvaluation.evaluador.name = evaluador
+};
 
   const drawCircle = (endPoint: Point) => {
     if (!isDraw) {
       return;
     }
-    const circle = new CircleDrawable(
+    const circle = new CircleDrawable(undefined,
       startPoint,
       calculateDistance(endPoint, startPoint),
       color
@@ -127,6 +140,8 @@ function App() {
 
   function setEvaluation(evaluation: Evaluation) {
     setCurrentEvaluation(evaluation)
+    setStatistics(evaluation)
+    setEvaluador(evaluation.evaluador.name)
     setDrawables([])
     setDrawables(evaluation.get_all_areas())
     const image = new Image();
@@ -136,8 +151,15 @@ function App() {
     };
   }
 
+  function setStatistics(evaluation: Evaluation) {
+      setEvaluatedArea(Math.round(evaluation.evaluated_area))
+      setNativeForestArea(Math.round(evaluation.native_forest_area))
+      setPercentForestArea(Math.round(evaluation.percent_forest_area))
+  }
+
   function save() {
-    evaluationService.save_evaluation(currentEvaluation).then((e)=>{
+    evaluationService.save_evaluation(currentEvaluation).then((data)=>{
+      setStatistics(currentEvaluation)
       console.log('evaluation saved')
     })
   }
@@ -231,6 +253,16 @@ function App() {
         }}
       >
         <h2>Menu</h2>
+        <div>
+          <h4>Evaluador</h4>
+          <input type="text" value={evaluador} onChange={onChangeEvaluador}/>
+          <ul>
+            <li>Area Evaluada: {evaluated_area}</li>
+            <li>Area Bosque: {native_forest_area}</li>
+            <li>% Area Bosque: {percent_forest_area} %</li>
+          </ul>
+
+        </div>
         <div>
           <h4>Cargar JSON</h4>
           <input type="file" onChange={handleJsonUpload} />

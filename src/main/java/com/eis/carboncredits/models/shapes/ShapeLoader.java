@@ -26,10 +26,12 @@ public class ShapeLoader {
         areaEntity.setEnd_y(shape.getEnd().getY());
         if (shape instanceof Circle ){
             areaEntity.setRadio(((Circle) shape).radio);
+            areaEntity.setType("Circle");
         }
         else if (shape instanceof Rectangle){
             areaEntity.setHeight(((Rectangle) shape).height);
             areaEntity.setWidth(((Rectangle) shape).width);
+            areaEntity.setType("Rectangle");
         }
 
     }

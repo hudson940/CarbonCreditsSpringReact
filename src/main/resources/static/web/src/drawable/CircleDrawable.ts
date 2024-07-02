@@ -7,9 +7,12 @@ export class CircleDrawable extends Circle implements Drawable {
 
   type: string = 'Circle';
   color: string;
-  constructor(start: Point, radius: number,color: string) {
-    super(start, radius);
+  end: Point;
+
+  constructor(id: number | undefined, start: Point, radius: number,color: string) {
+    super(id, start, radius);
     this.color = color;
+    this.end = new Point(0,0)
   }
 
   draw(canvas: RoughCanvas): void {

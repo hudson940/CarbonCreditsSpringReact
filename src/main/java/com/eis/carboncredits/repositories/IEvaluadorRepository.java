@@ -9,4 +9,6 @@ public interface IEvaluadorRepository extends CrudRepository<EvaluadorEntity,Lon
 
     @Override
     List<EvaluadorEntity> findAll();
+
+    List<EvaluadorEntity> findByName(String name);
 }

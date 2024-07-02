@@ -7,8 +7,8 @@ export class Rectangle extends Shape {
     start: Point;
     end: Point;
 
-    constructor(start:Point,end:Point ) {
-        super(start)
+    constructor(id: number|undefined, start:Point,end:Point ) {
+        super(id, start)
         this.start = start ;
         this.end = end;
     }

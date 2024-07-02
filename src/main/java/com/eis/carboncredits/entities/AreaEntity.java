@@ -73,6 +73,9 @@ public class AreaEntity {
     @JoinColumn(name = "id_evaluacion")
     private EvaluacionEntity evaluacion;
 
+    public void setEvaluacion(EvaluacionEntity evaluacion) {
+        this.evaluacion = evaluacion;
+    }
 
     public Long getId() {
         return id;

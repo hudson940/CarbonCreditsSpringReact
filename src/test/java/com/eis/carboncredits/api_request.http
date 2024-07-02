@@ -2,7 +2,7 @@ POST http://localhost:8080/api/evaluation
 Content-Type: application/json
 
 {
-  "id": 1,
+  "id": 70,
   "areas": [
     {
       "typeArea": "evaluated",
@@ -18,10 +18,8 @@ Content-Type: application/json
         }
       },
       "radio": 202.82997806044352,
-      "evaluacion": {
-        "id": 1
-      },
-      "type": "Circle"
+      "start_x": 2,
+      "typeShape": "Circle"
     }
   ],
   "image": "/tmp/ui.jpg",

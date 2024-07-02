@@ -33,7 +33,7 @@ public class EvaluacionEntity {
     @JoinColumn(name = "id_evaluador")
     public EvaluadorEntity evaluador;
 
-    @OneToMany(mappedBy = "evaluacion")
+    @OneToMany(mappedBy = "evaluacion", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<AreaEntity> areas;
 
 

@@ -3,8 +3,9 @@ import { Shape } from "./Shape";
 
 export class Circle extends Shape {
     radio:number;
-    constructor(start:Point, radio:number) {
-        super(start)
+    
+    constructor(id:number|undefined, start:Point, radio:number) {
+        super(id, start)
         this.radio = radio * 2
     }
 }

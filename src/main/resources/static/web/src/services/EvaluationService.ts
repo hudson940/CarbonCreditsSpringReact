@@ -32,5 +32,13 @@ export class EvaluationService {
             },
             body: evaluation.to_json(),
         })
+        const data = await result.json()
+        evaluation.id = data.id
+        evaluation.native_forest_area = data.native_forest_area
+        evaluation.evaluated_area = data.evaluated_area
+        evaluation.percent_forest_area = data.percent_forest_area
+        
+
+        return data
     }
 }

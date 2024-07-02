@@ -8,19 +8,21 @@ export class RectangleDrawable extends Rectangle implements Drawable {
     color: string
     type: string = 'Rectangle';
   
-  constructor(start: Point, end: Point,color:string) {
-     super(start,end)
+  constructor(id: number | undefined,start: Point, end: Point,color:string) {
+     super(id,start,end)
      this.start = start;
      this.end = end;
      this.color = color;
+     this.width =  this.end.x - this.start.x
+     this.height = this.end.y - this.start.y
   }
 
   draw(canvas: RoughCanvas): void {
     canvas.rectangle(
       this.start.x,
       this.start.y,
-      this.end.x - this.start.x,
-      this.end.y - this.start.y,
+      this.width,
+      this.height,
       {stroke: this.color}
     );
   }
