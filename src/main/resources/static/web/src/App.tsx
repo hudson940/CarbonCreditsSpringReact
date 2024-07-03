@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, SetStateAction, useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Board } from "./components/Board";
 import { Drawable } from "./drawable/Drawable";
@@ -79,7 +79,7 @@ function App() {
     setDrawablesTemp([...drawables, rectangle]);
   };
 
-  const onChangeEvaluador = event => {
+  const onChangeEvaluador = (event: { target: { value: SetStateAction<string>; }; }) => {
    setEvaluador(event.target.value);
    currentEvaluation.evaluador.name = evaluador
 };
@@ -158,9 +158,8 @@ function App() {
   }
 
   function save() {
-    evaluationService.save_evaluation(currentEvaluation).then((data)=>{
+    evaluationService.save_evaluation(currentEvaluation).then(()=>{
       setStatistics(currentEvaluation)
-      console.log('evaluation saved')
     })
   }
 
@@ -187,7 +186,7 @@ function App() {
         link.click();
 
         // Clean up and remove the link
-        link.parentNode.removeChild(link);
+        link.parentNode?.removeChild(link);
       });
 
   }

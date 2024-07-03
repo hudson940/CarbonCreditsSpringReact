@@ -1,5 +1,6 @@
 import { Drawable } from "../drawable/Drawable";
-import { Point, Evaluador } from "../models/Point";
+import { Point } from "./Point";
+import { Evaluador } from "./Evaluador";
 import { CircleDrawable } from "../drawable/CircleDrawable";
 import { RectangleDrawable } from "../drawable/RentangleDrawable";
 

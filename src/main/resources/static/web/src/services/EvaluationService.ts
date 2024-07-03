@@ -1,7 +1,5 @@
 import { Evaluation } from "../models/Evaluation";
 import { API_URL } from "../constants";
-import { Circle } from "../models/Circle";
-import { Point } from "../models/Point";
 
 export class EvaluationService {
     evaluations:Evaluation[]
