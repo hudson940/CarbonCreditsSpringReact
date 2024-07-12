@@ -1,14 +1,16 @@
-import { Line } from "./Line";
+import { Point } from "./Point";
 import { Shape } from "./Shape";
 
 export class Rectangle extends Shape {
-    height:Line;
-    width:Line;
+    height:number=0;
+    width:number=0;
+    start: Point;
+    end: Point;
 
-    constructor(height:Line, width:Line) {
-        super(height.start)
-        this.height = height;
-        this.width = width;
-        
+    constructor(id: number|undefined, start:Point,end:Point ) {
+        super(id, start)
+        this.start = start ;
+        this.end = end;
     }
+
 }

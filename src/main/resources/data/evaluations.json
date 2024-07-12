@@ -2,34 +2,34 @@
   "evaluations": [
     {
       "id": 1,
-      "image_path": "/tmp/image.jpg",
+      "image_path": "https://dummyimage.com/600.png",
       "evaluated_areas": [
         {
           "@type": "Circle",
           "start": {
-            "x": 5,
-            "y": 5
+            "x": 350,
+            "y": 350
           },
-          "radio": 10
+          "radio": 200
         }
       ],
       "native_forest_areas": [
         {
           "@type": "Circle",
           "start": {
-            "x": 20,
-            "y": 20
+            "x": 355,
+            "y": 355
           },
-          "radio":20
+          "radio":60
         },
         {
           "@type": "Rectangle",
           "start": {
-            "x": 25,
-            "y": 25
+            "x": 420,
+            "y": 420
           },
-          "height": 20,
-          "width": 10
+          "height": 200,
+          "width": 100
         },
         {
           "@type": "Square",

@@ -1,11 +1,11 @@
-import { Line } from "./Line";
 import { Point } from "./Point";
 import { Shape } from "./Shape";
 
 export class Circle extends Shape {
-    radio:Line;
-    constructor(start:Point, radio:Line) {
-        super(start)
-        this.radio = radio
+    radio:number;
+    
+    constructor(id:number|undefined, start:Point, radio:number) {
+        super(id, start)
+        this.radio = radio * 2
     }
 }

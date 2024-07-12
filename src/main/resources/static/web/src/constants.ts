@@ -1,0 +1,1 @@
+export const API_URL = 'http://techmayoreo.com:3000'

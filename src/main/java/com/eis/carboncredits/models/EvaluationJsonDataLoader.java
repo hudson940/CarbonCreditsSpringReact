@@ -1,7 +1,7 @@
 package com.eis.carboncredits.models;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.eis.carboncredits.repositories.EvaluationRepository;
+import com.eis.carboncredits.repositories.IEvaluationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
 
-@Component
+
 public class EvaluationJsonDataLoader implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(EvaluationJsonDataLoader.class);
-    final EvaluationRepository evaluationRepository;
+    final IEvaluationRepository evaluationRepository;
     private final ObjectMapper objectMapper;
 
-    public EvaluationJsonDataLoader(EvaluationRepository evaluationRepository, ObjectMapper objectMapper) {
+    public EvaluationJsonDataLoader(IEvaluationRepository evaluationRepository, ObjectMapper objectMapper) {
         this.evaluationRepository = evaluationRepository;
         this.objectMapper = objectMapper;
     }
@@ -28,7 +28,7 @@ public class EvaluationJsonDataLoader implements CommandLineRunner {
             try (InputStream inputStream = TypeReference.class.getResourceAsStream("/data/evaluations.json")) {
                 Evaluations allEval = objectMapper.readValue(inputStream, Evaluations.class);
                 log.info("Reading {} evaluations from JSON data and saving to in-memory collection.", allEval.evaluations().size());
-                evaluationRepository.saveAll(allEval.evaluations());
+                //evaluationRepository.saveAll(allEval.evaluations());
             } catch (IOException e) {
                 throw new RuntimeException("Failed to read JSON data", e);
             }

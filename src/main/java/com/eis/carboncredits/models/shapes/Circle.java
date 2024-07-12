@@ -7,9 +7,13 @@ public class Circle extends Shape{
     @JsonProperty
     Double radio;
 
-    public Circle(Point start, Double radio) {
-        super(start);
+    public Circle(Point start,Point end,Double radio) {
+        super(start,end);
+
         this.radio = radio;
+        if (radio == null){
+            this.radio = 0.0;
+        }
     }
 
     public double length() {

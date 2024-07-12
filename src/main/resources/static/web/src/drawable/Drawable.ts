@@ -1,8 +1,10 @@
-import RoughCanvas from 'roughjs'
+import { RoughCanvas } from "roughjs/bin/canvas";
+import { Point } from "../models/Point";
+
 
 export interface Drawable {
-    /**
-     * draw
-     */
-    draw(canvas:RoughCanvas):void
+    type: string;
+    start : Point;
+    end: Point;
+    draw(canvas:RoughCanvas):void;
 }

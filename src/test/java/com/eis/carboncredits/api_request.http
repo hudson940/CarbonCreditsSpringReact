@@ -2,16 +2,66 @@ POST http://localhost:8080/api/evaluation
 Content-Type: application/json
 
 {
-  "id": 1,
-  "image_path": "/tmp/image.jpg",
-  "shapes": [
+  "id": 70,
+  "areas": [
     {
-      "type": "Circle",
-      "start": {
-        "x": 5,
-        "y": 5
+      "typeArea": "evaluated",
+      "shape": {
+        "@type": "Circle",
+        "start": {
+          "x": 96,
+          "y": 116
+        },
+        "end": {
+          "x": 0,
+          "y": 0
+        }
       },
-      "radio": 12
+      "radio": 202.82997806044352,
+      "start_x": 2,
+      "typeShape": "Circle"
     }
-  ]
+  ],
+  "image": "/tmp/ui.jpg",
+  "evaluador": {
+    "id": 1,
+    "name": "John"
+  }
 }
+###
+
+POST http://localhost:8080/api/evaluadores
+Content-Type: application/json
+
+{"name": "evaluador 1"}
+
+###
+
+GET http://localhost:8080/api/evaluadores
+
+###
+
+POST http://localhost:8080/api/areas
+Content-Type: application/json
+
+{
+  "id": 1,
+  "typeArea": "evaluated",
+  "start_x": 96,
+  "start_y": 116,
+  "end_x": 0,
+  "end_y": 0,
+  "radio": 202.82997806044352,
+  "height": 0,
+  "shape": {},
+  "width": 0,
+  "evaluacion": {
+    "id": 1
+  },
+  "type": "Circle"
+}
+
+###
+
+GET http://localhost:8080/api/areas
+
